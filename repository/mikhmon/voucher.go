@@ -45,7 +45,12 @@ func (r *voucherRepository) GenerateBatch(ctx context.Context, req *mikhmonDomai
 
 	// Generate voucher comment format: vc-[CODE]-[DATE] or up-[CODE]-[DATE]
 	date := time.Now().Format("01.02.06") // MM.DD.YY
-	comment := fmt.Sprintf("%s-%s-%s", req.Mode, code, date)
+	var comment string
+	if req.Comment != "" {
+		comment = fmt.Sprintf("%s-%s-%s-%s", req.Mode, code, date, req.Comment)
+	} else {
+		comment = fmt.Sprintf("%s-%s-%s", req.Mode, code, date)
+	}
 
 	// Generate config
 	genConfig := &mikhmonDomain.GeneratorConfig{

@@ -31,6 +31,7 @@ func (r *profileRepository) CreateProfile(ctx context.Context, req *mikhmonDomai
 		NoExp:        req.Config.ExpireMode == mikhmonDomain.ExpireModeNoExpire,
 		LockUser:     boolToString(req.Config.LockUser),
 		LockServer:   boolToString(req.Config.LockServer),
+		ProfileName:  req.Name, // Profile name for recording script
 	}
 
 	onLoginScript := r.GenerateOnLoginScript(onLoginData)
@@ -65,6 +66,7 @@ func (r *profileRepository) UpdateProfile(ctx context.Context, id string, req *m
 		NoExp:        req.Config.ExpireMode == mikhmonDomain.ExpireModeNoExpire,
 		LockUser:     boolToString(req.Config.LockUser),
 		LockServer:   boolToString(req.Config.LockServer),
+		ProfileName:  req.Name, // Profile name for recording script
 	}
 
 	onLoginScript := r.GenerateOnLoginScript(onLoginData)
@@ -160,8 +162,8 @@ func (r *profileRepository) GenerateOnLoginScript(data *mikhmonDomain.OnLoginScr
 		sb.WriteString("        # Recording script for report\n")
 		sb.WriteString("        :local mac \"$mac-address\";\n")
 		sb.WriteString("        :local time [/system clock get time ];\n")
-		sb.WriteString(fmt.Sprintf("        /system script add name=\"$date-|-$time-|-$user-|-%d-|-$address-|-$mac-|-%s-|-[PROFILE]-|-$comment\" owner=\"$month$year\" source=$date comment=mikhmon\n",
-			data.Price, data.Validity))
+		sb.WriteString(fmt.Sprintf("        /system script add name=\"$date-|-$time-|-$user-|-%d-|-$address-|-$mac-|-%s-|-%s-|-$comment\" owner=\"$month$year\" source=$date comment=mikhmon\n",
+			data.Price, data.Validity, data.ProfileName))
 	}
 
 	sb.WriteString("    };\n")

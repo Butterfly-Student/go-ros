@@ -31,9 +31,10 @@ type OnLoginScriptData struct {
 	Price        int64  `json:"price"`
 	Validity     string `json:"validity"` // e.g., "30d"
 	SellingPrice int64  `json:"sellingPrice"`
-	NoExp        bool   `json:"noExp"`      // No expiration flag
-	LockUser     string `json:"lockUser"`   // "Enable" or "Disable"
-	LockServer   string `json:"lockServer"` // "Enable" or "Disable"
+	NoExp        bool   `json:"noExp"`       // No expiration flag
+	LockUser     string `json:"lockUser"`    // "Enable" or "Disable"
+	LockServer   string `json:"lockServer"`  // "Enable" or "Disable"
+	ProfileName  string `json:"profileName"` // Profile name for recording script
 }
 
 // ProfileRequest represents a request to add/update profile with Mikhmon config
